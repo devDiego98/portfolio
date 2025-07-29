@@ -5,8 +5,6 @@ const Navigation = ({ activeSection }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  console.log('Navigation component activeSection:', activeSection);
-
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
@@ -36,13 +34,9 @@ const Navigation = ({ activeSection }) => {
   ];
 
   const scrollToSection = (sectionId) => {
-    console.log('Scrolling to section:', sectionId); // Debug log
     const element = document.getElementById(sectionId);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      console.log('Scrolled to:', sectionId); // Debug log
-    } else {
-      console.log('Element not found:', sectionId); // Debug log
     }
     // Close mobile menu when navigating
     setIsMobileMenuOpen(false);
@@ -129,10 +123,7 @@ const Navigation = ({ activeSection }) => {
                   ? 'text-primary-400 bg-primary-500/10'
                   : 'text-gray-300 hover:text-white hover:bg-white/5'
               }`}
-              onClick={() => {
-                console.log('Mobile menu button clicked:', item.id);
-                scrollToSection(item.id);
-              }}
+              onClick={() => scrollToSection(item.id)}
             >
               {item.label}
             </button>

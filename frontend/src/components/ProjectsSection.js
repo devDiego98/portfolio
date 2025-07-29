@@ -12,54 +12,24 @@ const ProjectsSection = () => {
   const [projects, setProjects] = useState([]);
   const [selectedProject, setSelectedProject] = useState(null);
   const [filter, setFilter] = useState('all');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     // Fetch projects data from API
     const fetchProjects = async () => {
       try {
+        setLoading(true);
+        setError(null);
         const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/projects`);
         setProjects(response.data.projects);
+        console.log('Projects loaded from backend:', response.data.projects);
       } catch (error) {
         console.error('Error fetching projects:', error);
-        // Fallback data
-        setProjects([
-          {
-            id: "1",
-            title: "E-Commerce React App",
-            description: "Modern e-commerce platform built with React and Next.js featuring real-time inventory, payment processing, and admin dashboard.",
-            technologies: ["React", "Next.js", "TypeScript", "Stripe", "MongoDB"],
-            github_url: "https://github.com/devDiego1/ecommerce-app",
-            live_url: "https://example-ecommerce.vercel.app",
-            category: "Web Application"
-          },
-          {
-            id: "2",
-            title: "Svelte Dashboard",
-            description: "Analytics dashboard built with Svelte featuring real-time data visualization, interactive charts, and responsive design.",
-            technologies: ["Svelte", "D3.js", "Chart.js", "WebSocket", "PostgreSQL"],
-            github_url: "https://github.com/devDiego1/svelte-dashboard",
-            live_url: "https://analytics-dashboard.netlify.app",
-            category: "Web Application"
-          },
-          {
-            id: "3",
-            title: "React Component Library",
-            description: "Comprehensive UI component library with TypeScript support, Storybook documentation, and npm package distribution.",
-            technologies: ["React", "TypeScript", "Storybook", "Rollup", "Jest"],
-            github_url: "https://github.com/devDiego1/react-ui-lib",
-            live_url: "https://react-ui-lib.github.io",
-            category: "Library"
-          },
-          {
-            id: "4",
-            title: "Next.js Blog Platform",
-            description: "Full-featured blog platform with markdown support, SEO optimization, and content management system.",
-            technologies: ["Next.js", "MDX", "Tailwind CSS", "Vercel", "Contentful"],
-            github_url: "https://github.com/devDiego1/nextjs-blog",
-            live_url: "https://diego-dev-blog.vercel.app",
-            category: "Web Application"
-          }
-        ]);
+        setError('Failed to load projects. Please try again later.');
+        setProjects([]);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -69,12 +39,12 @@ const ProjectsSection = () => {
   const filters = [
     { id: 'all', label: 'All Projects' },
     { id: 'Web Application', label: 'Web Apps' },
-    { id: 'Library', label: 'Libraries' },
-    { id: 'Mobile', label: 'Mobile' }
+    { id: 'AI Platform', label: 'AI Platform' },
+    { id: 'Library', label: 'Libraries' }
   ];
 
-  const filteredProjects = filter === 'all' 
-    ? projects 
+  const filteredProjects = filter === 'all'
+    ? projects
     : projects.filter(project => project.category === filter);
 
   return (
@@ -92,12 +62,12 @@ const ProjectsSection = () => {
             Featured <span className="gradient-text">Projects</span>
           </h2>
           <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-            A showcase of web applications and libraries I've built using React, Next.js, and Svelte
+            A showcase of web applications and AI platforms I've built using React, Next.js, Svelte, and modern technologies
           </p>
         </motion.div>
 
         {/* Filter Tabs */}
-        <motion.div 
+        <motion.div
           className="flex justify-center mb-12"
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -122,13 +92,34 @@ const ProjectsSection = () => {
           </div>
         </motion.div>
 
+        {/* Loading State */}
+        {loading && (
+          <div className="flex justify-center items-center py-20">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"></div>
+          </div>
+        )}
+
+        {/* Error State */}
+        {error && (
+          <div className="text-center py-20">
+            <p className="text-red-400 mb-4">{error}</p>
+            <button
+              onClick={() => window.location.reload()}
+              className="btn-primary"
+            >
+              Retry
+            </button>
+          </div>
+        )}
+
         {/* Projects Grid */}
-        <motion.div 
-          className="grid md:grid-cols-2 lg:grid-cols-2 gap-8"
-          layout
-        >
-          <AnimatePresence>
-            {filteredProjects.map((project, index) => (
+        {!loading && !error && (
+          <motion.div
+            className="grid md:grid-cols-2 lg:grid-cols-2 gap-8"
+            layout
+          >
+            <AnimatePresence>
+              {filteredProjects.map((project, index) => (
               <motion.div
                 key={project.id}
                 className="project-card p-6 cursor-pointer"
@@ -202,9 +193,10 @@ const ProjectsSection = () => {
             ))}
           </AnimatePresence>
         </motion.div>
+        )}
 
         {/* Call to Action */}
-        <motion.div 
+        <motion.div
           className="text-center mt-16"
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -257,7 +249,7 @@ const ProjectsSection = () => {
                   </svg>
                 </button>
               </div>
-              
+
               <p className="text-gray-400 mb-6 leading-relaxed">
                 {selectedProject.description}
               </p>

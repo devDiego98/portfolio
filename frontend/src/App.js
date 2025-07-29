@@ -40,8 +40,6 @@ function App() {
     };
 
     const observer = new IntersectionObserver((entries) => {
-      console.log('Intersection entries:', entries.map(e => ({ id: e.target.id, isIntersecting: e.isIntersecting, ratio: e.intersectionRatio })));
-
       // Find the entry with the highest intersection ratio
       let maxRatio = 0;
       let activeEntry = null;
@@ -54,7 +52,6 @@ function App() {
       });
 
       if (activeEntry) {
-        console.log('Setting active section to:', activeEntry.target.id);
         setActiveSection(activeEntry.target.id);
       } else {
         // Fallback: check which section is currently in view based on scroll position
@@ -68,7 +65,6 @@ function App() {
             const elementBottom = elementTop + rect.height;
 
             if (scrollPosition >= elementTop && scrollPosition <= elementBottom) {
-              console.log('Fallback: Setting active section to:', sectionId);
               setActiveSection(sectionId);
               break;
             }
@@ -80,10 +76,7 @@ function App() {
     sections.forEach((section) => {
       const element = document.getElementById(section);
       if (element) {
-        console.log('Observing section:', section, element);
         observer.observe(element);
-      } else {
-        console.warn('Section element not found:', section);
       }
     });
 
@@ -153,7 +146,6 @@ function App() {
         <div className="fixed right-8 top-1/2 transform -translate-y-1/2 z-40 hidden lg:flex flex-col space-y-4">
           {['home', 'about', 'skills', 'projects', 'contact'].map((sectionId) => {
             const scrollToSection = (id) => {
-              console.log('Scrolling to section:', id);
               const element = document.getElementById(id);
               if (element) {
                 element.scrollIntoView({ behavior: 'smooth' });
@@ -161,7 +153,6 @@ function App() {
             };
 
             const isActive = activeSection === sectionId;
-            console.log(`Section ${sectionId} active:`, isActive, 'Current activeSection:', activeSection);
 
             return (
               <motion.button
