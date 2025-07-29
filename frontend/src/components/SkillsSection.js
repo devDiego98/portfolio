@@ -26,28 +26,7 @@ const SkillsSection = () => {
       } catch (error) {
         console.error('Error fetching skills:', error);
         // Fallback data
-        setSkills({
-          frontend: [
-            { name: 'React', level: 95, years: 7 },
-            { name: 'JavaScript', level: 98, years: 7 },
-            { name: 'TypeScript', level: 90, years: 5 },
-            { name: 'Next.js', level: 92, years: 4 },
-            { name: 'Svelte', level: 85, years: 3 },
-            { name: 'HTML/CSS', level: 96, years: 7 },
-            { name: 'Tailwind CSS', level: 88, years: 3 }
-          ],
-          tools: [
-            { name: 'Git', level: 90, years: 7 },
-            { name: 'Webpack', level: 85, years: 5 },
-            { name: 'Vite', level: 80, years: 2 },
-            { name: 'Docker', level: 75, years: 3 },
-            { name: 'AWS', level: 70, years: 2 }
-          ],
-          mobile: [
-            { name: 'React Native', level: 80, years: 3 },
-            { name: 'Flutter', level: 65, years: 2 }
-          ]
-        });
+   
       }
     };
 

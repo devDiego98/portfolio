@@ -39,7 +39,7 @@ const ProjectsSection = () => {
   const filters = [
     { id: 'all', label: 'All Projects' },
     { id: 'Web Application', label: 'Web Apps' },
-    { id: 'AI Platform', label: 'AI Platform' },
+    { id: 'Landing Pages', label: 'Landing Pages' },
     { id: 'Library', label: 'Libraries' }
   ];
 

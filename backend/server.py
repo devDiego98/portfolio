@@ -108,7 +108,7 @@ async def get_projects():
             "technologies": ["React", "Python", "TensorFlow", "FastAPI", "MongoDB", "Docker"],
             "github_url": None,
             "live_url": "https://www.wuru.ai/",
-            "category": "AI Platform"
+            "category": "Landing Pages"
         }
     ]
 
@@ -129,10 +129,8 @@ async def get_skills():
         ],
         "tools": [
             {"name": "Git", "level": 90, "years": 7},
-            {"name": "Webpack", "level": 85, "years": 5},
             {"name": "Vite", "level": 80, "years": 2},
             {"name": "Docker", "level": 75, "years": 3},
-            {"name": "AWS", "level": 70, "years": 2}
         ],
         "mobile": [
             {"name": "React Native", "level": 80, "years": 3},
